@@ -1,4 +1,3 @@
-#!/c/Users/gregs/Anaconda3/python
 # https://www.youtube.com/watch?v=Bqi7EFFvNOg
 import numpy as np
 from collections import Counter
@@ -30,7 +29,7 @@ class DecisionTree:
         self.root = None
 
     def fit(self, X, y):
-        # grow treeddddd
+        # grow tree
         self.n_feats = X.shape[1] if not self.n_feats else min(
             self.n_feats, X.shape[1])
         self.root = self._grow_tree(X, y)
@@ -69,7 +68,7 @@ class DecisionTree:
 
     def _information_gain(self, y, X_column, split_threh):
         # parent E
-        parent_entropy = - enthropy(y)
+        parent_entropy = enthropy(y)
         # generate split
         left_idxs, right_idxs = self._split(X_column, split_threh)
         if len(left_idxs) == 0 or len(right_idxs) == 0:
@@ -89,12 +88,12 @@ class DecisionTree:
         return left_idxs, right_idxs
 
     def predict(self, X):
-        return np.array([self._traverse_tree(x) for x in X], self.root)
+        return np.array([self._traverse_tree(x, self.root) for x in X])
 
     def _traverse_tree(self, x, node):
         if node.is_leaf_none():
             return node.value
-        if x[node.feat_idx] <= node.threshold:
+        if x[node.feature] <= node.threshold:
             return self._traverse_tree(x, node.left)
         return self._traverse_tree(x, node.right)
 
